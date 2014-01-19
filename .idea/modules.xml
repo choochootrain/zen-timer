@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/zen-timer.iml" filepath="$PROJECT_DIR$/zen-timer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/zentimer/zentimer.iml" filepath="$PROJECT_DIR$/zentimer/zentimer.iml" />
+    </modules>
+  </component>
+</project>
+
