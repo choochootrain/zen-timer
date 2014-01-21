@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -50,6 +52,15 @@ public class TimerActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_timer);
+
+        Button dummyButton = (Button) findViewById(R.id.dummy_button);
+
+        dummyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), "Button pressed", Toast.LENGTH_LONG).show();
+            }
+        });
 
         final View controlsView = findViewById(R.id.fullscreen_content_controls);
         final View contentView = findViewById(R.id.fullscreen_content);
