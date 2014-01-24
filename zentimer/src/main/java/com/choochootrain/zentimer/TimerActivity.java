@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.Chronometer;
 
 public class TimerActivity extends Activity {
+    private running = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +23,11 @@ public class TimerActivity extends Activity {
             @Override
             public void onClick(View v) {
                 chronometer.setBase(SystemClock.elapsedRealtime());
-                chronometer.start();
+                running = !running;
+                if (!running)
+                  chronometer.start();
+                else
+                  chronometer.stop();
             }
         });
     }
