@@ -48,7 +48,7 @@ public class TimerActivity extends Activity {
             @Override
             public void onChronometerTick(Chronometer chronometer) {
                 long elapsedTime = SystemClock.elapsedRealtime() - chronometer.getBase();
-                if (elapsedTime == 1 * MINUTES) {
+                if (elapsedTime >= 1 * MINUTES) {
                     chronometer.stop();
                     vibrator.vibrate(new long[] {300L, 200L, 300L, 200L, 1000L}, -1);
                 }
