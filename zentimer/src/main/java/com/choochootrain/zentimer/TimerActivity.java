@@ -12,15 +12,14 @@ public class TimerActivity extends Activity {
     public static long MINUTES = 1000 * 60;
 
     private boolean running = false;
-    private long startTime = 0;
 
-    private Vibrator vibrationManager;
+    private Vibrator vibrator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        vibrationManager = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
         setContentView(R.layout.activity_timer);
 
@@ -31,10 +30,8 @@ public class TimerActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-                running = !running;
-                if (running) {
-                    startTime = SystemClock.elapsedRealtime();
-                    chronometer.setBase(startTime);
+                if (!running) {
+                    chronometer.setBase(SystemClock.elapsedRealtime());
                     chronometer.start();
                     timerButton.setText(R.string.timer_button_stop);
                 } else {
@@ -42,16 +39,18 @@ public class TimerActivity extends Activity {
                     chronometer.setBase(SystemClock.elapsedRealtime());
                     timerButton.setText(R.string.timer_button_start);
                 }
+
+                running = !running;
             }
         });
 
         chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
             public void onChronometerTick(Chronometer chronometer) {
-                long currentTime = SystemClock.elapsedRealtime();
-                if (currentTime - startTime == 1 * MINUTES) {
+                long elapsedTime = SystemClock.elapsedRealtime() - chronometer.getBase();
+                if (elapsedTime == 1 * MINUTES) {
                     chronometer.stop();
-                    vibrationManager.vibrate(new long[] {300L, 200L, 300L, 200L, 1000L}, -1);
+                    vibrator.vibrate(new long[] {300L, 200L, 300L, 200L, 1000L}, -1);
                 }
             }
         });
