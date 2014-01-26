@@ -5,4 +5,16 @@
     <string name="timer_button_start">Start</string>
     <string name="timer_button_stop">Stop</string>
 
+    <string name="nav_duration">Time</string>
+    <string name="nav_sound">Sound</string>
+    <string name="nav_vibrate">Vibrate</string>
+    <string name="nav_about">About</string>
+
+    <string-array name="navigation_items">
+        <item>@string/nav_duration</item>
+        <item>@string/nav_sound</item>
+        <item>@string/nav_vibrate</item>
+        <item>@string/nav_about</item>
+    </string-array>
+
 </resources>
