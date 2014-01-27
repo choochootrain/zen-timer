@@ -47,6 +47,18 @@ public class TimerActivity extends Activity {
         drawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, drawerItems));
         drawerList.setOnItemClickListener(new NavigationListClickListener());
 
+        chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+            @Override
+            public void onChronometerTick(Chronometer chronometer) {
+                long elapsedTime = SystemClock.elapsedRealtime() - chronometer.getBase();
+                if (elapsedTime >= 1 * MINUTES) {
+                    chronometer.stop();
+                    vibrator.vibrate(new long[] {300L, 200L, 300L, 200L, 1000L}, -1);
+                    stopTimer();
+                }
+            }
+        });
+
         timerButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -59,23 +71,6 @@ public class TimerActivity extends Activity {
                 running = !running;
             }
         });
-
-        chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-            @Override
-            public void onChronometerTick(Chronometer chronometer) {
-                long elapsedTime = SystemClock.elapsedRealtime() - chronometer.getBase();
-                if (elapsedTime >= 1 * MINUTES) {
-                    chronometer.stop();
-                    vibrator.vibrate(new long[] {300L, 200L, 300L, 200L, 1000L}, -1);
-                    stopTimer();
-                }
-            }
-        });
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
     }
 
     private void startTimer() {
@@ -99,7 +94,6 @@ public class TimerActivity extends Activity {
 
     private void selectItem(int position) {
         drawerList.setItemChecked(position, true);
-        drawerLayout.closeDrawer(drawerList);
 
         if (drawerItems[position].equals(res.getString(R.string.nav_duration)))
             Toast.makeText(this, "Time", Toast.LENGTH_SHORT).show();
@@ -111,5 +105,7 @@ public class TimerActivity extends Activity {
             Intent intent = new Intent(this, AboutActivity.class);
             startActivity(intent);
         }
+
+        drawerLayout.closeDrawer(drawerList);
     }
 }
