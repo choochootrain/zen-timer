@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.AdapterView;
 import android.widget.Toast;
 import android.content.res.Resources;
+import android.content.Intent;
 
 public class TimerActivity extends Activity {
     public static long MINUTES = 1000 * 60;
@@ -106,7 +107,9 @@ public class TimerActivity extends Activity {
             Toast.makeText(this, "Sound", Toast.LENGTH_SHORT).show();
         else if (drawerItems[position].equals(res.getString(R.string.nav_vibrate)))
             Toast.makeText(this, "Vibrate", Toast.LENGTH_SHORT).show();
-        else if (drawerItems[position].equals(res.getString(R.string.nav_about)))
-            Toast.makeText(this, "About", Toast.LENGTH_SHORT).show();
+        else if (drawerItems[position].equals(res.getString(R.string.nav_about))) {
+            Intent intent = new Intent(this, AboutActivity.class);
+            startActivity(intent);
+        }
     }
 }

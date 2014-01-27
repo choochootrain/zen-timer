@@ -2,9 +2,10 @@
 <resources>
 
     <string name="app_name">Zen Timer</string>
+    <string name="app_author">choochootrain</string>
+    <string name="app_source"><a href="http://github.com/choochootrain/zen-timer">github.com/choochootrain/zen-timer</a></string>
     <string name="timer_button_start">Start</string>
     <string name="timer_button_stop">Stop</string>
-
     <string name="nav_duration">Time</string>
     <string name="nav_sound">Sound</string>
     <string name="nav_vibrate">Vibrate</string>
@@ -16,5 +17,7 @@
         <item>@string/nav_vibrate</item>
         <item>@string/nav_about</item>
     </string-array>
+
+    <string name="about_title">About</string>
 
 </resources>
