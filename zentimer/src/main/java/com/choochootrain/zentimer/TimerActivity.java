@@ -6,7 +6,6 @@ import android.os.SystemClock;
 import android.os.Vibrator;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ListView;
@@ -14,6 +13,8 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 import android.content.res.Resources;
 import android.content.Intent;
+
+import com.choochootrain.zentimer.adapter.NavigationListAdapter;
 
 public class TimerActivity extends Activity {
     public static long MINUTES = 1000 * 60;
@@ -44,8 +45,14 @@ public class TimerActivity extends Activity {
         timerButton = (Button) findViewById(R.id.timer_button);
 
         drawerItems = res.getStringArray(R.array.navigation_items);
-        drawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, drawerItems));
         drawerList.setOnItemClickListener(new NavigationListClickListener());
+        drawerList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        NavigationListAdapter adapter = new NavigationListAdapter(this);
+        adapter.addItem(drawerItems[0], NavigationListAdapter.TYPE_ITEM);
+        adapter.addItem(drawerItems[1], NavigationListAdapter.TYPE_SWITCH);
+        adapter.addItem(drawerItems[2], NavigationListAdapter.TYPE_SWITCH);
+        adapter.addItem(drawerItems[3], NavigationListAdapter.TYPE_ITEM);
+        drawerList.setAdapter(adapter);
 
         chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
@@ -93,8 +100,6 @@ public class TimerActivity extends Activity {
     }
 
     private void selectItem(int position) {
-        drawerList.setItemChecked(position, true);
-
         if (drawerItems[position].equals(res.getString(R.string.nav_duration)))
             Toast.makeText(this, "Time", Toast.LENGTH_SHORT).show();
         else if (drawerItems[position].equals(res.getString(R.string.nav_sound)))
@@ -104,8 +109,7 @@ public class TimerActivity extends Activity {
         else if (drawerItems[position].equals(res.getString(R.string.nav_about))) {
             Intent intent = new Intent(this, AboutActivity.class);
             startActivity(intent);
+            drawerLayout.closeDrawer(drawerList);
         }
-
-        drawerLayout.closeDrawer(drawerList);
     }
 }
