@@ -1,12 +1,15 @@
 package com.choochootrain.zentimer;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.Chronometer;
 import android.widget.ListView;
 import android.widget.AdapterView;
@@ -23,6 +26,7 @@ public class TimerActivity extends Activity {
 
     private Vibrator vibrator;
     private Resources res;
+    private SharedPreferences preferences;
 
     private DrawerLayout drawerLayout;
     private ListView drawerList;
@@ -36,6 +40,7 @@ public class TimerActivity extends Activity {
 
         res = getResources();
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        preferences = getPreferences(Context.MODE_PRIVATE);
 
         setContentView(R.layout.activity_timer);
 
@@ -59,8 +64,6 @@ public class TimerActivity extends Activity {
             public void onChronometerTick(Chronometer chronometer) {
                 long elapsedTime = SystemClock.elapsedRealtime() - chronometer.getBase();
                 if (elapsedTime >= 1 * MINUTES) {
-                    chronometer.stop();
-                    vibrator.vibrate(new long[] {300L, 200L, 300L, 200L, 1000L}, -1);
                     stopTimer();
                 }
             }
@@ -73,7 +76,7 @@ public class TimerActivity extends Activity {
                 if (!running)
                     startTimer();
                 else
-                    stopTimer();
+                    resetTimer();
 
                 running = !running;
             }
@@ -86,27 +89,39 @@ public class TimerActivity extends Activity {
         timerButton.setText(R.string.timer_button_stop);
     }
 
-    private void stopTimer() {
+    private void resetTimer() {
         chronometer.stop();
         chronometer.setBase(SystemClock.elapsedRealtime());
         timerButton.setText(R.string.timer_button_start);
     }
 
+    private void stopTimer() {
+        chronometer.stop();
+
+        boolean sound = preferences.getBoolean("sound", false);
+        boolean vibrate = preferences.getBoolean("vibrate", false);
+        Toast.makeText(this, "Sound " + sound + " vibrate " + vibrate, Toast.LENGTH_SHORT).show();
+
+        resetTimer();
+    }
+
     private class NavigationListClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
-            selectItem(position);
+            selectItem(view, position);
         }
     }
 
-    private void selectItem(int position) {
+    private void selectItem(View view, int position) {
         if (drawerItems[position].equals(res.getString(R.string.nav_duration)))
             Toast.makeText(this, "Time", Toast.LENGTH_SHORT).show();
-        else if (drawerItems[position].equals(res.getString(R.string.nav_sound)))
-            Toast.makeText(this, "Sound", Toast.LENGTH_SHORT).show();
-        else if (drawerItems[position].equals(res.getString(R.string.nav_vibrate)))
-            Toast.makeText(this, "Vibrate", Toast.LENGTH_SHORT).show();
-        else if (drawerItems[position].equals(res.getString(R.string.nav_about))) {
+        else if (drawerItems[position].equals(res.getString(R.string.nav_sound))) {
+            CheckedTextView soundPreference = (CheckedTextView)view.findViewById(android.R.id.text1);
+            preferences.edit().putBoolean("sound", soundPreference.isChecked()).commit();
+        } else if (drawerItems[position].equals(res.getString(R.string.nav_vibrate))) {
+            CheckedTextView vibratePreference = (CheckedTextView)view.findViewById(android.R.id.text1);
+            preferences.edit().putBoolean("vibrate", vibratePreference.isChecked()).commit();
+        } else if (drawerItems[position].equals(res.getString(R.string.nav_about))) {
             Intent intent = new Intent(this, AboutActivity.class);
             startActivity(intent);
             drawerLayout.closeDrawer(drawerList);
