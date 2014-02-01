@@ -10,8 +10,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import com.choochootrain.zentimer.R;
-
 public class NavigationListAdapter extends BaseAdapter implements ListAdapter {
     public static final int TYPE_ITEM = 0;
     public static final int TYPE_SWITCH = 1;
