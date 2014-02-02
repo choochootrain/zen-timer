@@ -18,6 +18,7 @@ import android.content.res.Resources;
 import android.content.Intent;
 
 import com.choochootrain.zentimer.adapter.NavigationListAdapter;
+import com.choochootrain.zentimer.pwm.PWMBuilder;
 
 public class TimerActivity extends Activity {
     public static long MINUTES = 1000 * 60;
@@ -114,93 +115,19 @@ public class TimerActivity extends Activity {
 
     private void selectItem(View view, int position) {
         if (drawerItems[position].equals(res.getString(R.string.nav_duration))) {
-            long[] pwm = new long[] {
-                    0l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l,
-                    10l,
-                    90l
-            };
+            long[] pwm = new PWMBuilder(true)
+                    .addPulse(1000l, 0.0)
+                    .addPulse(1000l, 0.1)
+                    .addPulse(1000l, 0.2)
+                    .addPulse(1000l, 0.3)
+                    .addPulse(1000l, 0.4)
+                    .addPulse(1000l, 0.5)
+                    .addPulse(1000l, 0.6)
+                    .addPulse(1000l, 0.7)
+                    .addPulse(1000l, 0.8)
+                    .addPulse(1000l, 0.9)
+                    .addPulse(1000l, 1.0)
+                    .generate();
             vibrator.vibrate(pwm, -1);
             Toast.makeText(this, "Time", Toast.LENGTH_SHORT).show();
         } else if (drawerItems[position].equals(res.getString(R.string.nav_sound))) {
