@@ -14,25 +14,24 @@ public class PWMBuilder {
     }
 
     public PWMBuilder addPulse(long duration, double duty) {
-        int cycle_length = 20;
-        //downsample duration
-        duration = duration/cycle_length*cycle_length;
+        //TODO: add bounds checking
+
         //downsample duty resolution to 10%
-        long duty_cycle_ms = (long)(duty * cycle_length);
-        System.out.println("duration " + duration + " -> " + duration);
-        System.out.println("duty " + duty + " -> " + duty_cycle_ms);
+        long duty_cycle_ms = (long)(duty * 100);
 
         if (duty_cycle_ms == 0)
             return this;
-        else if (duty_cycle_ms == 10) {
+        //TODO: concatenate any adjacent 100% duty pulses
+        else if (duty_cycle_ms == 100) {
             this.pulses.add(duration);
             this.pulses.add(0l);
             return this;
         }
 
-        for (int t = 0; t < duration / cycle_length; t++) {
-            this.pulses.add(duty_cycle_ms);
-            this.pulses.add(cycle_length - duty_cycle_ms);
+        long cycle_length = (long)(Math.pow((int)(duty_cycle_ms/10), 2) - 20);
+        for (int i = 0; i < duration / cycle_length; i++) {
+            this.pulses.add(cycle_length / 10 * duty_cycle_ms);
+            this.pulses.add(cycle_length / 10 * (10 - duty_cycle_ms));
         }
 
         return this;
