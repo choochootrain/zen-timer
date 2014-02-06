@@ -45,14 +45,4 @@ public class PWMBuilder {
 
         return gen;
     }
-
-    public static void main(String[] args) {
-        long[] pwm = new PWMBuilder(true)
-                .addPulse(104l, 0.143819)
-                .addPulse(168l, 0.548239)
-                .addPulse(432l, 1.0)
-                .generate();
-        for (int i = 0; i < pwm.length; i++)
-            System.out.print(pwm[i] + " ");
-    }
 }

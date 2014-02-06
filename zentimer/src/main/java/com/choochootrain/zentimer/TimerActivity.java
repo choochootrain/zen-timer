@@ -101,7 +101,14 @@ public class TimerActivity extends Activity {
 
         boolean sound = preferences.getBoolean("sound", false);
         boolean vibrate = preferences.getBoolean("vibrate", false);
-        Toast.makeText(this, "Sound " + sound + " vibrate " + vibrate, Toast.LENGTH_SHORT).show();
+
+        if (sound) {
+            //TODO mediaplayer async playback
+        }
+
+        if (vibrate) {
+            vibrator.vibrate(new long[]{0l, 500l, 250l, 500l, 250l, 500l, 250l, 1000l}, -1);
+        }
 
         resetTimer();
     }
@@ -115,21 +122,7 @@ public class TimerActivity extends Activity {
 
     private void selectItem(View view, int position) {
         if (drawerItems[position].equals(res.getString(R.string.nav_duration))) {
-            long[] pwm = new PWMBuilder(true)
-                    .addPulse(1000l, 0.0)
-                    .addPulse(1000l, 0.1)
-                    .addPulse(1000l, 0.2)
-                    .addPulse(1000l, 0.3)
-                    .addPulse(1000l, 0.4)
-                    .addPulse(1000l, 0.5)
-                    .addPulse(1000l, 0.6)
-                    .addPulse(1000l, 0.7)
-                    .addPulse(1000l, 0.8)
-                    .addPulse(1000l, 0.9)
-                    .addPulse(1000l, 1.0)
-                    .generate();
-            vibrator.vibrate(pwm, -1);
-            Toast.makeText(this, "Time", Toast.LENGTH_SHORT).show();
+             Toast.makeText(this, "Time", Toast.LENGTH_SHORT).show();
         } else if (drawerItems[position].equals(res.getString(R.string.nav_sound))) {
             CheckedTextView soundPreference = (CheckedTextView)view.findViewById(android.R.id.text1);
             preferences.edit().putBoolean("sound", soundPreference.isChecked()).commit();
