@@ -70,6 +70,8 @@ public class NavigationListAdapter extends BaseAdapter implements ListAdapter {
                     break;
                 case TYPE_SWITCH:
                     convertView = inflater.inflate(android.R.layout.simple_list_item_multiple_choice, null);
+                    //TODO move into xml file
+                    convertView.setPadding(15, 20, 15, 20);
                     label = (TextView)convertView.findViewById(android.R.id.text1);
                     break;
             }
