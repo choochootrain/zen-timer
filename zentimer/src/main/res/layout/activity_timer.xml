@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:keepScreenOn="true"
             android:textStyle="bold"
-            android:textSize="50sp"
+            android:textSize="100sp"
             android:gravity="center"
             android:layout_weight="1" />
 

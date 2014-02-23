@@ -9,6 +9,7 @@ import android.os.SystemClock;
 import android.os.Vibrator;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.Chronometer;
@@ -40,6 +41,7 @@ public class TimerActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         res = getResources();
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
