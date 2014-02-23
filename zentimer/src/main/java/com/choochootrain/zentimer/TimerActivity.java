@@ -15,6 +15,7 @@ import android.widget.CheckedTextView;
 import android.widget.Chronometer;
 import android.widget.ListView;
 import android.widget.AdapterView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.content.res.Resources;
 import android.content.Intent;
@@ -24,6 +25,9 @@ import com.choochootrain.zentimer.pwm.PWMBuilder;
 
 public class TimerActivity extends Activity {
     public static long MINUTES = 1000 * 60;
+    public static int MAX_DURATION = 15;
+
+    private int duration_minutes = 1;
 
     private boolean running = false;
 
@@ -36,6 +40,7 @@ public class TimerActivity extends Activity {
     private ListView drawerList;
     private String[] drawerItems;
     private Chronometer chronometer;
+    private TextView timerDuration;
     private Button timerButton;
 
     @Override
@@ -53,6 +58,7 @@ public class TimerActivity extends Activity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.navigation_drawer);
         chronometer = (Chronometer) findViewById(R.id.chronometer);
+        timerDuration = (TextView) findViewById(R.id.timer_duration);
         timerButton = (Button) findViewById(R.id.timer_button);
 
         drawerItems = res.getStringArray(R.array.navigation_items);
@@ -69,11 +75,13 @@ public class TimerActivity extends Activity {
             @Override
             public void onChronometerTick(Chronometer chronometer) {
                 long elapsedTime = SystemClock.elapsedRealtime() - chronometer.getBase();
-                if (elapsedTime >= 1 * MINUTES) {
+                if (elapsedTime >= duration_minutes * MINUTES) {
                     stopTimer();
                 }
             }
         });
+
+        updateDuration();
 
         timerButton.setOnClickListener(new View.OnClickListener() {
 
@@ -87,6 +95,10 @@ public class TimerActivity extends Activity {
                 running = !running;
             }
         });
+    }
+
+    private void updateDuration() {
+        timerDuration.setText(duration_minutes + " minute timer");
     }
 
     private void startTimer() {
@@ -127,7 +139,8 @@ public class TimerActivity extends Activity {
 
     private void selectItem(View view, int position) {
         if (drawerItems[position].equals(res.getString(R.string.nav_duration))) {
-             Toast.makeText(this, "Time", Toast.LENGTH_SHORT).show();
+            duration_minutes  = (duration_minutes + 1) % MAX_DURATION;
+            updateDuration();
         } else if (drawerItems[position].equals(res.getString(R.string.nav_sound))) {
             CheckedTextView soundPreference = (CheckedTextView)view.findViewById(android.R.id.text1);
             preferences.edit().putBoolean("sound", soundPreference.isChecked()).commit();
