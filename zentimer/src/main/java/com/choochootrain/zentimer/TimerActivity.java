@@ -3,6 +3,7 @@ package com.choochootrain.zentimer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.os.Vibrator;
@@ -26,6 +27,7 @@ public class TimerActivity extends Activity {
     private boolean running = false;
 
     private Vibrator vibrator;
+    private MediaPlayer mediaPlayer;
     private Resources res;
     private SharedPreferences preferences;
 
@@ -41,6 +43,7 @@ public class TimerActivity extends Activity {
 
         res = getResources();
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        mediaPlayer = MediaPlayer.create(this, R.raw.bowl);
         preferences = getPreferences(Context.MODE_PRIVATE);
 
         setContentView(R.layout.activity_timer);
@@ -103,11 +106,11 @@ public class TimerActivity extends Activity {
         boolean vibrate = preferences.getBoolean("vibrate", false);
 
         if (sound) {
-            //TODO mediaplayer async playback
+            mediaPlayer.start();
         }
 
         if (vibrate) {
-            vibrator.vibrate(new long[]{0l, 500l, 250l, 500l, 250l, 500l, 250l, 1000l}, -1);
+            vibrator.vibrate(new long[]{0l, 250l, 125l, 250l, 125l, 250l, 125l, 500l}, -1);
         }
 
         resetTimer();
