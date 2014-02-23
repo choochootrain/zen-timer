@@ -1,7 +1,8 @@
 [X] add basic timer
-[ ]   increment times
+[X]   increment times
 [ ] add reminder functionality
 [X] find alarm sounds
 [x] add license
 [X] add icon
 [ ] make preferences persistent
+[ ] clean up options ui
