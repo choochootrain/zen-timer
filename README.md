@@ -5,4 +5,6 @@ Zen Timer
 
 A no-frills meditation timer for Android
 
+![alt tag](https://raw.github.com/choochootrain/zen-timer/master/screenshot.png)
+
 Sounds from http://www.freesound.org/people/suburban%20grilla/sounds/2166/
